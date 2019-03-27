@@ -1,6 +1,4 @@
-package pubnub;
-
-import static pubnub.Constants.*;
+package pubnub.usecase;
 
 import java.util.Arrays;
 
@@ -34,9 +32,9 @@ public class UseCaseOne {
     private static void enableNotification(String userId, String appName, String deviceId) {
 
         PNConfiguration pnConfiguration = new PNConfiguration();
-        pnConfiguration.setPublishKey(PUBLISH_KEY);
-        pnConfiguration.setSubscribeKey(SUBSCRIBE_KEY);
-        pnConfiguration.setSecretKey(SECRET_KEY);
+        pnConfiguration.setPublishKey(Constants.PUBLISH_KEY);
+        pnConfiguration.setSubscribeKey(Constants.SUBSCRIBE_KEY);
+        pnConfiguration.setSecretKey(Constants.SECRET_KEY);
         pnConfiguration.setSecure(true);
 
         final String channelName = userId + "-" + appName + "-" + deviceId;
@@ -63,7 +61,7 @@ public class UseCaseOne {
         final String channelName = userId + "-" + appName + "-" + deviceId;
 
         PNConfiguration pnConfiguration = new PNConfiguration();
-        pnConfiguration.setSubscribeKey(SUBSCRIBE_KEY);
+        pnConfiguration.setSubscribeKey(Constants.SUBSCRIBE_KEY);
 
         PubNub pubnub = new PubNub(pnConfiguration);
 
@@ -95,9 +93,9 @@ public class UseCaseOne {
         final String channelName = userId + "-" + appName + "-" + deviceId;
 
         PNConfiguration pnConfiguration = new PNConfiguration();
-        pnConfiguration.setPublishKey(PUBLISH_KEY);
-        pnConfiguration.setSubscribeKey(SUBSCRIBE_KEY);
-        pnConfiguration.setSecretKey(SECRET_KEY);
+        pnConfiguration.setPublishKey(Constants.PUBLISH_KEY);
+        pnConfiguration.setSubscribeKey(Constants.SUBSCRIBE_KEY);
+        pnConfiguration.setSecretKey(Constants.SECRET_KEY);
         pnConfiguration.setSecure(true);
         PubNub pubnub = new PubNub(pnConfiguration);
 

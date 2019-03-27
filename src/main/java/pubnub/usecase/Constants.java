@@ -1,4 +1,4 @@
-package pubnub;
+package pubnub.usecase;
 
 public interface Constants {
 
