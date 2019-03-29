@@ -25,11 +25,13 @@ public class Subscriber implements Constants {
         pubnub.addListener(new SubscribeCallback() {
 
             public void status(PubNub pubnub, PNStatus status) {
-                log.debug("pubnub " + pubnub + " status=" + status);
+                log.debug("Subscribed to Channel [" + CHANNEL + "] status = " + status.getStatusCode());
+                // log.debug("pubnub " + pubnub + " status=" + status);
             }
 
             public void message(PubNub pubnub, PNMessageResult message) {
-                log.debug("pubnub " + pubnub + " message=" + message);
+                // log.debug("pubnub " + pubnub + " message=" + message);
+                log.debug("Received message = [" + message.getMessage() + "] from Channel [" + CHANNEL + "]");
             }
 
             public void presence(PubNub pubnub, PNPresenceEventResult presence) {
