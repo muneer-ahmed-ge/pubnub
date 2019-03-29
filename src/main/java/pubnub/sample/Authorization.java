@@ -14,9 +14,7 @@ public class Authorization implements Constants {
 
     final static Logger log = Logger.getLogger(Authorization.class);
 
-    private static final String SECRET_KEY = "sec-c-MmQ2YjU4ZmEtOTVhNC00MzZjLTkzZjgtY2FmYmY4ZWM2Y2Yy";
-
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
 
         PNConfiguration pnConfiguration = new PNConfiguration();
         pnConfiguration.setPublishKey(PUBLISH_KEY);
@@ -26,6 +24,21 @@ public class Authorization implements Constants {
 
         PubNub pubnub = new PubNub(pnConfiguration);
 
+        // clean the global level permission
+        pubnub.grant()
+                .channels(Arrays.asList(""))
+                .read(false) // allow keys to read the subscribe feed (false by default)
+                .write(false) // allow those keys to write (false by default)
+                .ttl(0)
+                .async(new PNCallback<PNAccessManagerGrantResult>() {
+                    @Override
+                    public void onResponse(PNAccessManagerGrantResult result, PNStatus status) {
+                        // log.debug("PNAccessManagerGrantResult result=" + result + " status=" + status);
+                        log.debug("clean global level permissions status=" + status.getStatusCode());
+                    }
+                });
+        Thread.sleep(10 * 1000);
+
         // Channel Level Grant
         pubnub.grant()
                 .channels(Arrays.asList(CHANNEL))
@@ -34,23 +47,26 @@ public class Authorization implements Constants {
                 .async(new PNCallback<PNAccessManagerGrantResult>() {
                     @Override
                     public void onResponse(PNAccessManagerGrantResult result, PNStatus status) {
-                        log.debug("Channel [" + CHANNEL + "] created and granted [Channel level read] status = " + status.getStatusCode());
+                        log.debug("Granted Channel [" + CHANNEL + "] [Channel level read] status = " + status.getStatusCode());
 //                        log.debug("PNAccessManagerGrantResult result=" + result + " status=" + status);
                     }
                 });
+        Thread.sleep(10 * 1000);
 
-//        // User Level Grant
-//        pubnub.grant()
-//                .channels(Arrays.asList(CHANNEL)) //channels to allow grant on
-//                .authKeys(Arrays.asList(AUTH_KEY)) // the keys we are provisioning
-//                .read(true) // allow keys to read the subscribe feed (false by default)
-//                .write(true) // allow those keys to write (false by default)
-//                .ttl(15) // how long those keys will remain valid (0 for eternity)
-//                .async(new PNCallback<PNAccessManagerGrantResult>() {
-//                    @Override
-//                    public void onResponse(PNAccessManagerGrantResult result, PNStatus status) {
-//                        log.debug("PNAccessManagerGrantResult result=" + result + " status=" + status);
-//                    }
-//                });
+        // User Level Grant
+        pubnub.grant()
+                .channels(Arrays.asList(CHANNEL)) //channels to allow grant on
+                .authKeys(Arrays.asList(AUTH_KEY)) // the keys we are provisioning
+                .read(true) // allow keys to read the subscribe feed (false by default)
+                .write(true) // allow those keys to write (false by default)
+                .ttl(5) // how long those keys will remain valid (0 for eternity)
+                .async(new PNCallback<PNAccessManagerGrantResult>() {
+                    @Override
+                    public void onResponse(PNAccessManagerGrantResult result, PNStatus status) {
+                        log.debug("Granted Channel [" + CHANNEL + "] [User level read/write] Auth Key = " + AUTH_KEY + " status = " + status.getStatusCode());
+
+                    }
+                });
+        Thread.sleep(10 * 1000);
     }
 }

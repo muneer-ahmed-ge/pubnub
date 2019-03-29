@@ -21,8 +21,8 @@ public class Publisher implements Constants {
         PNConfiguration pnConfiguration = new PNConfiguration();
         pnConfiguration.setPublishKey(PUBLISH_KEY);
         pnConfiguration.setSubscribeKey(SUBSCRIBE_KEY);
-        pnConfiguration.setSecretKey(SECRET_KEY);
-        //pnConfiguration.setAuthKey(AUTH_KEY);
+        //pnConfiguration.setSecretKey(SECRET_KEY);
+        pnConfiguration.setAuthKey(AUTH_KEY);
 
         PubNub pubnub = new PubNub(pnConfiguration);
 
