@@ -1,11 +1,10 @@
 package pubnub.sample;
 
 
-import static pubnub.usecase.Constants.SECRET_KEY;
-
 import com.google.gson.JsonObject;
 import com.pubnub.api.PNConfiguration;
 import com.pubnub.api.PubNub;
+import com.pubnub.api.PubNubException;
 import com.pubnub.api.callbacks.PNCallback;
 import com.pubnub.api.models.consumer.PNPublishResult;
 import com.pubnub.api.models.consumer.PNStatus;
@@ -21,8 +20,8 @@ public class Publisher implements Constants {
         PNConfiguration pnConfiguration = new PNConfiguration();
         pnConfiguration.setPublishKey(PUBLISH_KEY);
         pnConfiguration.setSubscribeKey(SUBSCRIBE_KEY);
-        //pnConfiguration.setSecretKey(SECRET_KEY);
-        pnConfiguration.setAuthKey(AUTH_KEY);
+        pnConfiguration.setSecretKey(SECRET_KEY);
+//        pnConfiguration.setAuthKey(AUTH_KEY);
 
         PubNub pubnub = new PubNub(pnConfiguration);
 

@@ -1,14 +1,14 @@
 package pubnub.sample;
 
 
-import java.util.Arrays;
-
 import com.pubnub.api.PNConfiguration;
 import com.pubnub.api.PubNub;
 import com.pubnub.api.callbacks.PNCallback;
 import com.pubnub.api.models.consumer.PNStatus;
 import com.pubnub.api.models.consumer.access_manager.PNAccessManagerGrantResult;
 import org.apache.log4j.Logger;
+
+import java.util.Arrays;
 
 public class Authorization implements Constants {
 
@@ -24,10 +24,9 @@ public class Authorization implements Constants {
 
         PubNub pubnub = new PubNub(pnConfiguration);
 
-        // clean the global level permission
         pubnub.grant()
-                .channels(Arrays.asList(""))
-                .read(false) // allow keys to read the subscribe feed (false by default)
+                .channels(Arrays.asList(CHANNEL))
+                .read(true) // allow keys to read the subscribe feed (false by default)
                 .write(false) // allow those keys to write (false by default)
                 .ttl(0)
                 .async(new PNCallback<PNAccessManagerGrantResult>() {
@@ -37,36 +36,51 @@ public class Authorization implements Constants {
                         log.debug("clean global level permissions status=" + status.getStatusCode());
                     }
                 });
-        Thread.sleep(10 * 1000);
+        Thread.sleep(5 * 1000);
+
+        // clean the global level permission
+//        pubnub.grant()
+//                .channels(Arrays.asList(""))
+//                .read(false) // allow keys to read the subscribe feed (false by default)
+//                .write(false) // allow those keys to write (false by default)
+//                .ttl(0)
+//                .async(new PNCallback<PNAccessManagerGrantResult>() {
+//                    @Override
+//                    public void onResponse(PNAccessManagerGrantResult result, PNStatus status) {
+//                        // log.debug("PNAccessManagerGrantResult result=" + result + " status=" + status);
+//                        log.debug("clean global level permissions status=" + status.getStatusCode());
+//                    }
+//                });
+//        Thread.sleep(5 * 1000);
 
         // Channel Level Grant
-        pubnub.grant()
-                .channels(Arrays.asList(CHANNEL))
-                .read(true) // allow keys to read the subscribe feed (false by default)
-                .write(false) // allow those keys to write (false by default)
-                .async(new PNCallback<PNAccessManagerGrantResult>() {
-                    @Override
-                    public void onResponse(PNAccessManagerGrantResult result, PNStatus status) {
-                        log.debug("Granted Channel [" + CHANNEL + "] [Channel level read] status = " + status.getStatusCode());
-//                        log.debug("PNAccessManagerGrantResult result=" + result + " status=" + status);
-                    }
-                });
-        Thread.sleep(10 * 1000);
+//        pubnub.grant()
+//                .channels(Arrays.asList(CHANNEL))
+//                .read(true) // allow keys to read the subscribe feed (false by default)
+//                .write(false) // allow those keys to write (false by default)
+//                .async(new PNCallback<PNAccessManagerGrantResult>() {
+//                    @Override
+//                    public void onResponse(PNAccessManagerGrantResult result, PNStatus status) {
+//                        log.debug("Granted Channel [" + CHANNEL + "] [Channel level read] status = " + status.getStatusCode());
+////                        log.debug("PNAccessManagerGrantResult result=" + result + " status=" + status);
+//                    }
+//                });
+//        Thread.sleep(5 * 1000);
 
         // User Level Grant
-        pubnub.grant()
-                .channels(Arrays.asList(CHANNEL)) //channels to allow grant on
-                .authKeys(Arrays.asList(AUTH_KEY)) // the keys we are provisioning
-                .read(true) // allow keys to read the subscribe feed (false by default)
-                .write(true) // allow those keys to write (false by default)
-                .ttl(5) // how long those keys will remain valid (0 for eternity)
-                .async(new PNCallback<PNAccessManagerGrantResult>() {
-                    @Override
-                    public void onResponse(PNAccessManagerGrantResult result, PNStatus status) {
-                        log.debug("Granted Channel [" + CHANNEL + "] [User level read/write] Auth Key = " + AUTH_KEY + " status = " + status.getStatusCode());
-
-                    }
-                });
-        Thread.sleep(10 * 1000);
+//        pubnub.grant()
+//                .channels(Arrays.asList(CHANNEL)) //channels to allow grant on
+//                .authKeys(Arrays.asList(AUTH_KEY)) // the keys we are provisioning
+//                .read(true) // allow keys to read the subscribe feed (false by default)
+//                .write(true) // allow those keys to write (false by default)
+//                .ttl(5) // how long those keys will remain valid (0 for eternity)
+//                .async(new PNCallback<PNAccessManagerGrantResult>() {
+//                    @Override
+//                    public void onResponse(PNAccessManagerGrantResult result, PNStatus status) {
+//                        log.debug("Granted Channel [" + CHANNEL + "] [User level read/write] Auth Key = " + AUTH_KEY + " status = " + status.getStatusCode());
+//
+//                    }
+//                });
+//        Thread.sleep(10 * 1000);
     }
 }

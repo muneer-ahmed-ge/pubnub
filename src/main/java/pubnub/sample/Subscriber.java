@@ -31,7 +31,8 @@ public class Subscriber implements Constants {
 
             public void message(PubNub pubnub, PNMessageResult message) {
                 // log.debug("pubnub " + pubnub + " message=" + message);
-                log.debug("Received message = [" + message.getMessage() + "] from Channel [" + CHANNEL + "]");
+                // log.debug("Received message = [" + message.getMessage() + "] from Channel [" + CHANNEL + "]");
+                log.debug(message.getMessage());
             }
 
             public void presence(PubNub pubnub, PNPresenceEventResult presence) {
