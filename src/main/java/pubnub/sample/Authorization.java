@@ -1,14 +1,14 @@
 package pubnub.sample;
 
 
+import java.util.Arrays;
+
 import com.pubnub.api.PNConfiguration;
 import com.pubnub.api.PubNub;
 import com.pubnub.api.callbacks.PNCallback;
 import com.pubnub.api.models.consumer.PNStatus;
 import com.pubnub.api.models.consumer.access_manager.PNAccessManagerGrantResult;
 import org.apache.log4j.Logger;
-
-import java.util.Arrays;
 
 public class Authorization implements Constants {
 
@@ -25,7 +25,7 @@ public class Authorization implements Constants {
         PubNub pubnub = new PubNub(pnConfiguration);
 
         pubnub.grant()
-                .channels(Arrays.asList(CHANNEL))
+                .channels(Arrays.asList(SYNC_STATUS_CHANNEL))
                 .read(true) // allow keys to read the subscribe feed (false by default)
                 .write(false) // allow those keys to write (false by default)
                 .ttl(0)

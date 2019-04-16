@@ -4,7 +4,6 @@ package pubnub.sample;
 import com.google.gson.JsonObject;
 import com.pubnub.api.PNConfiguration;
 import com.pubnub.api.PubNub;
-import com.pubnub.api.PubNubException;
 import com.pubnub.api.callbacks.PNCallback;
 import com.pubnub.api.models.consumer.PNPublishResult;
 import com.pubnub.api.models.consumer.PNStatus;
@@ -37,12 +36,12 @@ public class Publisher implements Constants {
         messageJsonObject.addProperty("msg", message);
         pubnub.publish()
                 .message(messageJsonObject)
-                .channel(CHANNEL)
+                .channel(SYNC_STATUS_CHANNEL)
                 .async(new PNCallback<PNPublishResult>() {
                     @Override
                     public void onResponse(PNPublishResult result, PNStatus status) {
                         log.debug("Published message = [" + message + "] to Channel ["
-                                + CHANNEL + "] status = " + status.getStatusCode());
+                                + SYNC_STATUS_CHANNEL + "] status = " + status.getStatusCode());
 //                        log.debug("Published result=" + result + " status=" + status);
                         // handle publish result, status always present, result if successful
                         // status.isError to see if error happened

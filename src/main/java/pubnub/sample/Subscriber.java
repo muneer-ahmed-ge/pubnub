@@ -2,7 +2,9 @@ package pubnub.sample;
 
 
 import java.util.Arrays;
+import java.util.Map;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.pubnub.api.PNConfiguration;
 import com.pubnub.api.PubNub;
 import com.pubnub.api.callbacks.SubscribeCallback;
@@ -25,14 +27,17 @@ public class Subscriber implements Constants {
         pubnub.addListener(new SubscribeCallback() {
 
             public void status(PubNub pubnub, PNStatus status) {
-                log.debug("Subscribed to Channel [" + CHANNEL + "] status = " + status.getStatusCode());
+                log.debug("Subscribed to Channel [" + Arrays.asList(SYNC_STATUS_CHANNEL, SFDC_EVENT_CHANNEL) +
+                        "] status = " + status.getStatusCode());
                 // log.debug("pubnub " + pubnub + " status=" + status);
             }
 
             public void message(PubNub pubnub, PNMessageResult message) {
                 // log.debug("pubnub " + pubnub + " message=" + message);
                 // log.debug("Received message = [" + message.getMessage() + "] from Channel [" + CHANNEL + "]");
-                log.debug(message.getMessage());
+//                log.debug(message.getMessage());
+                // parseSyncStatusMessage(message.getMessage());
+                 parseSyncStatusMessage(message.getMessage().toString());
             }
 
             public void presence(PubNub pubnub, PNPresenceEventResult presence) {
@@ -41,8 +46,26 @@ public class Subscriber implements Constants {
         });
 
         pubnub.subscribe()
-                .channels(Arrays.asList(CHANNEL))
+                .channels(Arrays.asList(SYNC_STATUS_CHANNEL, SFDC_EVENT_CHANNEL))
                 .execute();
 
+    }
+
+    private static void parseSyncStatusMessage(String message) {
+        Map<String, Object> input = null;
+        try {
+            input = new ObjectMapper().readValue(message, Map.class);
+        } catch (Exception excp) {
+            log.error(excp);
+            return;
+        }
+        Map<String, Object> meta = (Map<String, Object>) input.get("meta");
+        StringBuilder builder = new StringBuilder();
+        builder.append("status=").append(meta.get("status"));
+        builder.append(" progressPercent=").append(meta.get("progressPercent"));
+        builder.append(" attachmentProgressPercent=").append(meta.get("attachmentProgressPercent"));
+        builder.append(" hasAttachments=").append(meta.get("hasAttachments"));
+        builder.append(" attachmentStatus=").append(meta.get("attachmentStatus"));
+        log.debug(builder.toString());
     }
 }
