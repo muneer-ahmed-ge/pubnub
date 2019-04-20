@@ -27,17 +27,14 @@ public class Subscriber implements Constants {
         pubnub.addListener(new SubscribeCallback() {
 
             public void status(PubNub pubnub, PNStatus status) {
-                log.debug("Subscribed to Channel [" + Arrays.asList(SYNC_STATUS_CHANNEL, SFDC_EVENT_CHANNEL) +
+                log.debug("Subscribed to Channel [" + Arrays.asList(CHANNEL_NAME) +
                         "] status = " + status.getStatusCode());
                 // log.debug("pubnub " + pubnub + " status=" + status);
             }
 
             public void message(PubNub pubnub, PNMessageResult message) {
-                // log.debug("pubnub " + pubnub + " message=" + message);
-                // log.debug("Received message = [" + message.getMessage() + "] from Channel [" + CHANNEL + "]");
-//                log.debug(message.getMessage());
-                // parseSyncStatusMessage(message.getMessage());
-                 parseSyncStatusMessage(message.getMessage().toString());
+                log.debug(message.getMessage());
+                // parseSyncStatusMessage(message.getMessage().toString());
             }
 
             public void presence(PubNub pubnub, PNPresenceEventResult presence) {
@@ -46,7 +43,7 @@ public class Subscriber implements Constants {
         });
 
         pubnub.subscribe()
-                .channels(Arrays.asList(SYNC_STATUS_CHANNEL, SFDC_EVENT_CHANNEL))
+                .channels(Arrays.asList(CHANNEL_NAME))
                 .execute();
 
     }

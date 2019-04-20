@@ -14,7 +14,7 @@ public class SubscriberSample {
 
     private static final String SUBSCRIBE_KEY = "sub-c-279f9278-442c-11e9-860e-caf3c7524d6c";
 
-    private static final String SFDC_EVENT_CHANNEL = "GoApp-00De0000005T6vwEAC.005e0000004JmiLAAS";
+    private static final String CHANNEL_NAME = "GoApp-00D7A000000DH4GUAW-0057A000001xKZ4QAM.4d0a4520f48d6fd1af6cd8215731e92dc94875cec482a6acf1e8927c6e76c862";
 
     public static void main(String[] args) {
 
@@ -26,7 +26,7 @@ public class SubscriberSample {
         pubnub.addListener(new SubscribeCallback() {
 
             public void status(PubNub pubnub, PNStatus status) {
-                System.out.println("Subscribed to Channel [" + SFDC_EVENT_CHANNEL +
+                System.out.println("Subscribed to Channel [" + CHANNEL_NAME +
                         "] status = " + status.getStatusCode());
 
             }
@@ -40,7 +40,7 @@ public class SubscriberSample {
         });
 
         pubnub.subscribe()
-                .channels(Arrays.asList(SFDC_EVENT_CHANNEL))
+                .channels(Arrays.asList(CHANNEL_NAME))
                 .execute();
     }
 }

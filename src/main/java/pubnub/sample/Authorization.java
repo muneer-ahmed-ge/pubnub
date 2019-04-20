@@ -25,7 +25,7 @@ public class Authorization implements Constants {
         PubNub pubnub = new PubNub(pnConfiguration);
 
         pubnub.grant()
-                .channels(Arrays.asList(SYNC_STATUS_CHANNEL))
+                .channels(Arrays.asList(CHANNEL_NAME))
                 .read(true) // allow keys to read the subscribe feed (false by default)
                 .write(false) // allow those keys to write (false by default)
                 .ttl(0)
